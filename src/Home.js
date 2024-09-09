@@ -75,24 +75,7 @@ import BlogList from "./BlogList";
 
 const Home = () => {
 
-    const [blogs, setBlogs] = useState(null);
-
-    useEffect(() => {
-        fetch('http://localhost:8000/blogs')
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            console.log("Data fetched :", data);
-            setBlogs(data);
-        })
-    }, [])
-
-    return (
-        <div className="home">
-            {blogs && <BlogList blogs={blogs} title="All of the blogs are listed here!"/>}
-        </div>
-    );
+    
 }
 
 export default Home;
