@@ -70,27 +70,27 @@
 // export default Home;
 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BlogList from "./BlogList";
 
 const Home = () => {
 
-    const [blogs, setBlogs] = useState([
-        {title : 'My new website', body : 'lorem ipsum...', author : 'vBlxze', id : 1},
-        {title : 'Welcome Party!', body : 'lorem ipsum...', author : 'Night', id : 2},
-        {title : 'Top elites', body : 'lorem ipsum...', author : 'Jokesta', id : 3},
-        {title : 'The God of Elites', body : 'lorem ipsum...', author : 'vBlxze', id : 4}
-    ]);
+    const [blogs, setBlogs] = useState(null);
 
-    const deleteBlog = (id) => {
-        const newBlogList = blogs.filter((blog) => blog.id !== id);
-        setBlogs(newBlogList);
-    }
+    useEffect(() => {
+        fetch('http://localhost:8000/blogs')
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log("Data fetched :", data);
+            setBlogs(data);
+        })
+    }, [])
 
     return (
         <div className="home">
-            <BlogList blogs={blogs} title="All of the blogs are listed here!" deleteBlog={deleteBlog} />
-            <BlogList blogs = {blogs.filter((blog) => blog.author === 'vBlxze')} title = "vBlxze's blogs" deleteBlog = {deleteBlog}/>
+            {blogs && <BlogList blogs={blogs} title="All of the blogs are listed here!"/>}
         </div>
     );
 }
