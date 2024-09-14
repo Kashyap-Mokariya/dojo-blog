@@ -12,7 +12,7 @@ const useFetch = (url) => {
         const abortFetch = new AbortController();
 
         setTimeout(() => {
-            fetch(url, {signal: abortFetch.signal})
+            fetch(url, { signal: abortFetch.signal })
                 .then(response => {
                     if (!response.ok) {
                         throw Error("Could not fetch data for that resource");
@@ -32,11 +32,11 @@ const useFetch = (url) => {
                     }
                     else
                     {
-                        setError(err.message);
                         setIsLoading(false);
+                        setError(err.message);
                     }
                 })
-        }, 3000)
+        }, 500)
 
         return () => abortFetch.abort();
     }, [url])
