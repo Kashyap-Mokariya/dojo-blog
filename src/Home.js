@@ -77,6 +77,7 @@ const Home = () => {
 
     return (
         <div className="home">
+            <h1>All Blogs!</h1>
             {error && <div>{error}</div>}
             {isLoading && <div>Loading...</div>}
             {data && <BlogList blogs={data} />}
