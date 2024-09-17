@@ -2,13 +2,25 @@ import { useState } from "react";
 
 const Create = () => {
 
-    const [blogTitle, setTitle] = useState("");
-    const [blogBody, setBody] = useState("");
-    const [blogAuthor, setAuthor] = useState('vBlxze');
+    const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
+    const [author, setAuthor] = useState('vBlxze');
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleSubmit = (e) => {
         // Prevents the page from reloading after pressing submit button
-        e.preventDefault(); 
-        const blog = {blogTitle, blogBody, blogAuthor};
+        e.preventDefault();
+        const blog = { title, body, author };
+        setIsLoading(true);
+
+        fetch('http://localhost:8000/blogs', {
+            method: 'POST',
+            headers: { 'Content-type': "application/json" },
+            body: JSON.stringify(blog)
+        }).then(() => {
+            console.log("New blog added");
+            setIsLoading(false);
+        })
     }
 
 
@@ -22,18 +34,18 @@ const Create = () => {
                 <input
                     type="text"
                     required
-                    value={blogTitle}
+                    value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
                 <label>Blog body : </label>
                 <textarea
                     required
-                    value={blogBody}
+                    value={body}
                     onChange={(e) => setBody(e.target.value)}
                 ></textarea>
                 <label>Blog author : </label>
                 <select
-                    value={blogAuthor}
+                    value={author}
                     onChange={(e) => setAuthor(e.target.value)}
                 >
                     <option value="vBlxze">vBlxze</option>
@@ -41,7 +53,8 @@ const Create = () => {
                     <option value="Jokesta">Jokesta</option>
                 </select>
 
-                <button>Add blog</button>
+                {!isLoading && <button>Add blog</button>}
+                {isLoading && <button disabled>Adding blog</button>}
             </form>
         </div>
     );
